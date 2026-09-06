@@ -4,12 +4,14 @@ A minimal but reliable currency exchange-rate aggregator. It fetches live rates 
 
 ## Approach
 
-The goal was to ship a working submission in about 60 minutes. I prioritized:
+The main problem is not just getting exchange rates; it is user trust. A blank "Unable to fetch rates" error is worse than showing clearly labelled last-known-good data.
+
+I prioritized:
 1. A real working backend with two public APIs and graceful failure.
-2. A clean React frontend that makes freshness obvious.
+2. A frontend that makes freshness obvious.
 3. Simple docs so an evaluator can run it immediately.
 
-I avoided databases, Docker, auth, charts, and complex infrastructure because they do not help demonstrate the core product idea: reliability over fake real-time guarantees.
+I avoided databases, Docker, auth, charts, and complex infrastructure because they do not help demonstrate the core product idea: reliability over fake real-time guarantees. This is a 60-minute implementation, so a reliable single endpoint and clear user states are more important than extra features.
 
 ## Project Structure
 
@@ -87,7 +89,7 @@ The UI will be available at `http://localhost:5173`.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `VITE_API_URL` | `http://localhost:8000/rates` | Backend API endpoint |
+| `VITE_API_URL` | `http://localhost:8000` | Backend base URL |
 
 ## API Example
 
@@ -153,7 +155,7 @@ https://github.com/tanushreeraut-28/real-time-rates
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
 5. Add environment variable:
-   - `VITE_API_URL` = `https://your-backend.onrender.com/rates` (use the URL from Step 1)
+    - `VITE_API_URL` = `https://real-time-rates.onrender.com` (use the URL from Step 1, without `/rates`)
 6. Click **Deploy**.
 7. After deployment, copy the live frontend URL.
 

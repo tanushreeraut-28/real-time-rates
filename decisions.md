@@ -1,5 +1,9 @@
 # Product and Technical Decisions
 
+## Problem
+
+Free users see rate-limited, stale, or unavailable public APIs. The immediate issue is not precision; it is trust. Users need to know whether the data they see is fresh.
+
 ## APIs
 
 **Primary:** `api.frankfurter.dev` (ECB-backed, lightweight JSON, no key required)
@@ -33,6 +37,12 @@ Different providers publish rates at different times and from different sources.
 - Relative time display ("2m ago") makes freshness tangible.
 - Auto-refresh polls every 30 seconds. Manual refresh is always available.
 - CORS origins are configurable via environment variable for production deployment.
+
+## Premium API Budget
+
+The assessment mentions a $5/day budget for premium API calls. This MVP does not spend that budget. Free users are served using public APIs plus fallback and caching. This is intentional because the immediate problem is reliability and trust, and the constraints specify public APIs for free users.
+
+If premium calls were introduced later, the budget could be used selectively for high-intent moments rather than for every free-user request. Examples: a large conversion amount, repeated refreshes after an outage, or a rate check immediately before a payment or travel booking. Measuring whether this improves conversion would require production analytics and an experiment; this implementation does not claim to prove the hypothesis.
 
 ## What Was Intentionally Cut
 
