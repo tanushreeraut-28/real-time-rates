@@ -4,7 +4,8 @@ import './App.css'
 
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'INR', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'SGD']
 const DISPLAY_CURRENCIES = ['EUR', 'GBP', 'INR', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'SGD']
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/rates'
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
+const API_URL = `${API_BASE}/rates`
 const REFRESH_INTERVAL_MS = 30000
 
 function relativeTime(isoString) {

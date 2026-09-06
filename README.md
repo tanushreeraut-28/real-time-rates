@@ -123,36 +123,54 @@ Response:
 
 ## Deployment
 
-### Option A: Render (Backend) + Vercel (Frontend)
+The project is already pushed to GitHub:
+https://github.com/tanushreeraut-28/real-time-rates
 
-**Backend on Render:**
-1. Push this repository to GitHub.
-2. Create a new Web Service on Render.
-3. Connect your GitHub repo and select the `backend` folder as the root directory.
-4. Render auto-detects Python. The `render.yaml` blueprint is included for one-click deployment.
-5. Set the `CORS_ORIGINS` environment variable to your deployed frontend URL (e.g., `https://your-app.vercel.app`).
-6. Deploy. Your backend will be available at `https://real-time-rates-backend.onrender.com`.
+### Step 1: Deploy Backend to Render
 
-**Frontend on Vercel:**
-1. Push this repository to GitHub.
-2. Import the `frontend` folder into Vercel.
-3. Set the `VITE_API_URL` environment variable to your deployed Render backend URL (e.g., `https://real-time-rates-backend.onrender.com/rates`).
-4. Deploy. Your frontend will be available at a Vercel URL.
+1. Go to https://render.com and sign in.
+2. Click **New** → **Web Service**.
+3. Connect your GitHub account and select the `real-time-rates` repo.
+4. Set these values:
+   - **Root Directory:** `backend`
+   - **Runtime:** `Python 3`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Add environment variable:
+   - `CORS_ORIGINS` = `https://your-frontend.vercel.app` (update after frontend deploys)
+   - `REQUEST_TIMEOUT` = `10`
+6. Click **Create Web Service**.
+7. After deployment, copy the live backend URL (e.g., `https://real-time-rates-backend.onrender.com`).
 
-### Option B: Netlify (Frontend) + Render (Backend)
+### Step 2: Deploy Frontend to Vercel
 
-Follow the same Render backend steps above, then:
+1. Go to https://vercel.com and sign in.
+2. Click **Add New...** → **Project**.
+3. Import the `real-time-rates` repo.
+4. Set these values:
+   - **Framework Preset:** `Vite`
+   - **Root Directory:** `frontend`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+5. Add environment variable:
+   - `VITE_API_URL` = `https://your-backend.onrender.com/rates` (use the URL from Step 1)
+6. Click **Deploy**.
+7. After deployment, copy the live frontend URL.
 
-1. Import the `frontend` folder into Netlify.
-2. Set the `VITE_API_URL` environment variable to your deployed backend URL.
-3. Netlify will use `netlify.toml` automatically.
+### Step 3: Final Configuration
 
-### Post-Deployment Checklist
+1. Go back to Render and update `CORS_ORIGINS` to your exact Vercel frontend domain.
+2. Redeploy the backend if needed.
+3. Test the live frontend and confirm rates load with `status: fresh`.
 
-1. Update `CORS_ORIGINS` in Render to include your exact frontend domain.
-2. Verify `VITE_API_URL` points to the live backend.
-3. Test `GET /rates?base=USD` on the live backend.
-4. Open the live frontend and confirm rates load with `status: fresh`.
+### Step 4: Verify Deployment
+
+Test the live backend directly:
+```
+GET https://your-backend.onrender.com/rates?base=USD
+```
+
+Expected response includes `"status": "fresh"` with live rates.
 
 ## Assumptions
 
